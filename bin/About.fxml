@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="About">
+   <children>
+      <VBox alignment="CENTER" prefHeight="240.0" prefWidth="320.0" spacing="20.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Programmed by Serhij Čepil for School Purposes." />
+            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#onButtonExit" text="Got it!" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

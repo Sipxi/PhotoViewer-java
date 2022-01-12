@@ -1,0 +1,3 @@
+.text-area:error {
+    -fx-text-fill: red;
+}
