@@ -38,7 +38,7 @@ public class Controller implements Initializable {
     private CheckBox imageChose;
     @FXML
     private MenuItem negativeFilterItem;
-    private File file;
+    private File file; // * W.I.P
 
     public Controller() {
         this.file = null;
@@ -63,6 +63,7 @@ public class Controller implements Initializable {
     }
 
     public void addLog(final String text) {
+        // ? Logger instead?
         textLogger.appendText("\n" + text);
     }
 
@@ -72,8 +73,9 @@ public class Controller implements Initializable {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.sizeToScene();
         stage.show();
-
     }
 
     public void resetToOriginal() throws IOException {
@@ -94,7 +96,7 @@ public class Controller implements Initializable {
             this.originalImage = ImageUtils.readImageFromFile(this.file);
 
             // Convert to FXImage and display
-            imgFrame.setImage(SwingFXUtils.toFXImage(this.img, null));
+            this.updateImage();
 
             saveFile.setDisable(false);
             negativeFilterItem.setDisable(false);
@@ -109,22 +111,34 @@ public class Controller implements Initializable {
     public void generateImage() {
         // Image file dimensions
         int width = 640, height = 320;
-  
+
         // Create buffered image object
         BufferedImage img = null;
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-  
+
         // create values pixel by pixel
         for (int x = 0; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
-                img.setRGB(x, y, new Color(255, 255, 255).getRGB());
+                img.setRGB(x, y, new Color(x % 255, y % 255, (x + y) % 255).getRGB());
             }
-        this.img = img;
-        this.originalImage = img;
-        imgFrame.setImage(SwingFXUtils.toFXImage(img, null));
-        
+            this.img = img;
+            this.originalImage = img;
+            this.updateImage();
+
+        }
     }
-}
+
+    public void updateImage() {
+        imgFrame.setImage(SwingFXUtils.toFXImage(this.img, null));
+    }
+
+    public void updateFractal() {
+        /*
+         * Fractal fractal = new Fractal();
+         * img = fractal.getFractal();
+         * imgFrame.setImage(SwingFXUtils.toFXImage(img, null));
+         */
+    }
 
     public void MenuItemSaveAction(ActionEvent event) throws IOException {
 
@@ -149,6 +163,7 @@ public class Controller implements Initializable {
             this.clearImg();
             imgFrame.setImage(null);
             saveFile.setDisable(true);
+            negativeFilterItem.setDisable(true);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -161,7 +176,6 @@ public class Controller implements Initializable {
     }
 
     public void MatchCheckBoxAction() {
-
         if (this.img == null) {
             return;
         }
@@ -175,7 +189,7 @@ public class Controller implements Initializable {
     public void NegativeItemAction(ActionEvent event) throws IOException {
         NegativeFilter filter = new NegativeFilter(this.img);
         filter.useFilter();
-        imgFrame.setImage(SwingFXUtils.toFXImage(this.img, null));
+        this.updateImage();
     }
 
     public void AboutItemAction(ActionEvent event) throws IOException {
@@ -188,11 +202,4 @@ public class Controller implements Initializable {
         this.originalImage = ImageUtils.readImageFromFile(this.file);
     }
 
-    public void updateFractal(){
-        /*
-        Fractal fractal = new Fractal();
-        img = fractal.getFractal();
-        imgFrame.setImage(SwingFXUtils.toFXImage(img, null));
-        */
-    }
 }

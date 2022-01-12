@@ -16,6 +16,7 @@ public class NegativeFilter extends Filters {
             for (int y = 0; y < this.filteredImg.getHeight(); y++) {
                 int rgba = this.filteredImg.getRGB(x, y);
                 Color color = new Color(rgba, true);
+                //Negate every pixel
                 color = new Color(255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue());
                 this.filteredImg.setRGB(x, y, color.getRGB());
             }
